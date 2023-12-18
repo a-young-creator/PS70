@@ -12,7 +12,8 @@
     <div class="navbar-nav">
       <h4></h4>
       <h4><a class="nav-link" href="../index.html">Home</a></h4>
-      <h4><a class="nav-link" href="../about.html">About</a></h4>
+      <h4><a class="nav-link" href="../about.html">About</a></h4>     
+      <h4><a class="nav-link" href="../proposal.html">Project Proposal</a></h4>
     </div>
   </div>
 </nav>
@@ -23,13 +24,92 @@
 <xmp style="display:none;">
 <br> 
 
-#### Week 1: Introduction 
+#### Week 7: Electronic Output Devices
 
-Here is an image: 
+This week marked the shift where almost everything I was doing revolved around my final project. In this week, I continued my experiment from the previous week in order to create my MVP for my final project.
 
-![image of embroidery](./sew.png)
+I took the capactitive touch circuit I developed in the week prior and added a piezo buzzer to the breadboard. I calibrated it to buzz when a certain voltage threshold was crossed on the touch sensor. This is when I discovered that the circuit required the user to be grounded, since touching the copper while ungrounded caused the voltage to jump up by a small, inconsistent number, while being grounded made the voltage drop downwards by 40-50% (which was much easier to code for.)
 
-And here is a	[link](../index.html).
+Once I aaccounted for this, I filled up the arduino with as many sensors as I could and wrote the code to correspond to different discrete pitches I wanted my piano to play. Just like that, I had the first module of my keyboard ready to go.
+
+Side note- my fiancé was in town this week and came to the lab with me (although he wasn't my fiancé quite yet.) It was already so fulfilling and satisfying to realize my MVP was working, and having him there to cheer me on and get excited with me was so special.
+
+<img src= "IMG_5455.png" width= "300px">
+
+From here, Bobby helped me change my code to utilize a class structure to make it more efficient. The code is displayed below.
+
+<div class= "box">
+  <pre>
+    <code>
+      class SoundButton{
+      public:
+      int tx_pin;
+      int rx_pin;
+
+          SoundButton(int _tx_pin, int _rx_pin){  //creates SoundButton function for various pairs of pins
+            tx_pin = _tx_pin;
+            rx_pin = _rx_pin;
+            pinMode(tx_pin, OUTPUT);
+            pinMode(rx_pin, INPUT);
+          }
+
+          long tx_rx(){           //execute function and return a value
+            int read_high;
+            int read_low;
+            int diff;
+            long int sum;
+            int N_samples = 100;  //larger sample size equals more time, less scatter
+
+            sum = 0;
+
+            for (int i = 0; i < N_samples; i++){  //keep taking samples until N_samples (specified above) are taken)
+              digitalWrite(tx_pin, HIGH);
+              read_high = analogRead(rx_pin);
+              delayMicroseconds(100);
+              digitalWrite(tx_pin, LOW);
+              read_low = analogRead(rx_pin);
+              diff = read_high - read_low; //comparing voltage drop against tx_pin on vs. off
+              sum += diff;  //create sum of N_samples worth of diff value
+            }   
+            return sum;   //when tx_rx function is performed, it returns "sum" to be read as a value
+          }
+        };
+
+      //below are the defined buttons and their corresponding pins for all desired notes
+      //SoundButton is defined by (int tx_pin, int rx_pin), so each button has to be accompanied by a corresponding pin pair
+      //naming system: buttonx, buttonxhs (half sharp), buttonxs (sharp), buttonxss (supersharp)
+
+      SoundButton buttonA(4,A3);
+      SoundButton buttonAs(5,A5);
+      SoundButton buttonAhs(6,A4);
+
+      void setup() {
+        // put your setup code here, to run once:
+          Serial.begin(9600);
+
+      }
+
+      void loop() {
+        long result = buttonA.tx_rx();
+        Serial.println(result);
+        if(buttonA.tx_rx() < 90000){
+          tone(10, 440);
+          }
+        else if(buttonAs.tx_rx() < 90000){
+          tone(10, 466.16);
+          }
+        else if(buttonAhs.tx_rx() < 90000){
+          tone(10, 452.89);
+        }
+        else{
+          noTone(10);
+        }
+      }
+    </code>
+  </pre>
+</div>
+
+
 
 </xmp>
 </body>
