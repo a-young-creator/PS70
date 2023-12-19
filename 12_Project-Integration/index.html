@@ -83,9 +83,7 @@ Simultaneously, I was working on the code. Even for a novice coder like me, it w
 
 I used two Adafruit MPR121s, which can each hold 12 capacitive touch pads, for a total of 24. This was perfect for my first attempt at building the whole thing, as a microtonal scale contains 24 discrete tones. Iterating to further octaves would be a relatively easy next step if I could create the whole first octave. The video below shows what it looked like with the first module soldered to the breadboard. You can also see the edges of the copper film that wrap around to the back of the acrylic. Connecting both boards to a common ground and 5V hookup helped simplify the circuit A LOT. Note how the MPR121 on the left has a small yellow wire connecting the ADDR pin to the 3.3V hookup. This is how the Arduino identifies that there are two different units being used.
 
-<video width="25%" height="50%" controls><source src="./IMG_5763.MOV" type="video/mp4"></video>
-
-As you can see in the video above, the Arduino is also wired to a simple circuit containing a piezo buzzer. My next steps for this project involve replacing the hardware and the code in this iteration with a MIDI hookup and MaxMSP code so that the Keystone can interface directly with a laptop or computer as its speaker and control center.
+The Arduino is also wired to a simple circuit containing a piezo buzzer. My next steps for this project involve replacing the hardware and the code in this iteration with a MIDI hookup and MaxMSP code so that the Keystone can interface directly with a laptop or computer as its speaker and control center.
 
 Once this proved a success, it was a relatively simple, albeit tedious, process to solder all 24 connections across six modules. Below is an image of what it looked like once all the soldering was done.
 
