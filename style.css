@@ -11,6 +11,19 @@ p {
   font-size: 16px;
 }
 
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+th, td {
+  text-align: left;
+  padding: 8px;
+  color: white;
+}
+
+tr:nth-child(even){
+  background-color: steelblue;
+}
 
 .margin {margin-bottom: 15px;}
 
@@ -31,3 +44,5 @@ color: skyblue;
 background-color: black;
 color: lightskyblue;
 }
+
+
